@@ -25,7 +25,7 @@ class AmRedactorPlugin extends BasePlugin
 
     public function init()
     {
-        if(craft()->request->isCpRequest() && craft()->userSession->isAdmin())
+        if(craft()->request->isCpRequest())
         {
             craft()->templates->includeJsResource('amredactor/js/amredactor.js');
         }
