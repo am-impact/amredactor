@@ -9,8 +9,8 @@ class AmRedactorService extends BaseApplicationComponent
 
 		foreach (array('height', 'width') as $dimension)
 		{
-			preg_match('/'. $dimension .':[ ]*[0-9]+px;/', $styleContents, ${$dimension . 'String'});
-			$dimensions[$dimension] = ($$dimension = preg_replace('/'. $dimension .':[ ]*([0-9]+)px;/', '$1', $styleContents)) != $styleContents ? $$dimension : 'auto';
+			preg_match('/'. $dimension .':[ ]*([0-9]+)px;/', $styleContents, $match);
+			$dimensions[$dimension] = isset($match[1]) ? $match[1] : 'auto';
 		}
 
 		return $dimensions;
@@ -52,7 +52,7 @@ class AmRedactorService extends BaseApplicationComponent
 		{
 			$order .= ' ASC';
 		}
-		
+
 		$row = craft()->db->createCommand()
 			->select('handle')
 			->from('assettransforms')
