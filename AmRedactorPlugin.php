@@ -3,35 +3,6 @@ namespace Craft;
 
 class AmRedactorPlugin extends BasePlugin
 {
-<<<<<<< Updated upstream
-    public function getName()
-    {
-         return 'a&m impact redactor';
-    }
-
-    public function getVersion()
-    {
-        return '1.0';
-    }
-
-    public function getDeveloper()
-    {
-        return 'a&m impact';
-    }
-
-    public function getDeveloperUrl()
-    {
-        return 'http://www.am-impact.nl';
-    }
-
-    public function init()
-    {
-        if(craft()->request->isCpRequest())
-        {
-            craft()->templates->includeJsResource('amredactor/js/amredactor.js');
-        }
-    }
-=======
 	public function getName()
 	{
 		 return 'a&m impact redactor';
@@ -54,7 +25,7 @@ class AmRedactorPlugin extends BasePlugin
 
 	public function init()
 	{
-		if(craft()->request->isCpRequest() && craft()->userSession->isAdmin())
+		if(craft()->request->isCpRequest())
 		{
 			craft()->templates->includeJsResource('amredactor/js/amredactor.js');
 		}
@@ -107,5 +78,4 @@ class AmRedactorPlugin extends BasePlugin
 			}
 		});
 	}
->>>>>>> Stashed changes
 }
