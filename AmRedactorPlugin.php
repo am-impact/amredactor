@@ -32,7 +32,7 @@ class AmRedactorPlugin extends BasePlugin
 
 		if (craft()->request->isPostRequest() && craft()->request->isCpRequest())
 		{
-			$this->transformImages();
+			craft()->plugins->getPlugin('amredactor')->transformImages();
 		}
 	}
 
