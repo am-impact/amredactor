@@ -48,32 +48,35 @@ class AmRedactorPlugin extends BasePlugin
 				if ($fieldType instanceof RichTextFieldType)
 				{
 					$richText = $entry->getContent()->getAttribute($field->handle);
-					$doc = new \DOMDocument();
-					libxml_use_internal_errors(true);
-					$doc->loadHTML($richText);
-					$images = $doc->getElementsByTagName('img');
-
-					foreach ($images as $image)
+					if (!empty($richText))
 					{
-						$assetPartsString = substr($image->getAttribute('src'), 1, count($image->getAttribute('src')) - 2);
-						$sourceParts = explode(':', $assetPartsString);
-						$dimensions = craft()->amRedactor->getDimensionsFromStyle($image->getAttribute('style'));
-						$transformWithoutDimensions = ($sourceParts[2] != 'url' && $dimensions['height'] == 'auto' && $dimensions['width'] == 'auto');
+						$doc = new \DOMDocument();
+						libxml_use_internal_errors(true);
+						$doc->loadHTML($richText);
+						$images = $doc->getElementsByTagName('img');
 
-						// Don't do anything if a transform is already set, but no dimensions were specified.
-						if (!$transformWithoutDimensions)
+						foreach ($images as $image)
 						{
-							$assetTransformHandle = craft()->amRedactor->getNearestTransform($dimensions);
+							$assetPartsString = substr($image->getAttribute('src'), 1, count($image->getAttribute('src')) - 2);
+							$sourceParts = explode(':', $assetPartsString);
+							$dimensions = craft()->amRedactor->getDimensionsFromStyle($image->getAttribute('style'));
+							$transformWithoutDimensions = ($sourceParts[2] != 'url' && $dimensions['height'] == 'auto' && $dimensions['width'] == 'auto');
 
-							if ($assetTransformHandle !== false)
+							// Don't do anything if a transform is already set, but no dimensions were specified.
+							if (!$transformWithoutDimensions)
 							{
-								$sourceParts[2] = $assetTransformHandle;
-							}
-							$image->setAttribute('src', '{' . implode(':', $sourceParts) . '}');
-						}
-					}
+								$assetTransformHandle = craft()->amRedactor->getNearestTransform($dimensions);
 
-					$entry->getContent()->setAttribute($field->handle, urldecode($doc->saveHTML()));
+								if ($assetTransformHandle !== false)
+								{
+									$sourceParts[2] = $assetTransformHandle;
+								}
+								$image->setAttribute('src', '{' . implode(':', $sourceParts) . '}');
+							}
+						}
+
+						$entry->getContent()->setAttribute($field->handle, urldecode($doc->saveHTML()));
+					}
 				}
 			}
 		});
