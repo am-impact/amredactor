@@ -4,14 +4,19 @@ RedactorPlugins.amredactor = function() {
     return {
         init: function() {
             var isAdmin = $('#header-actions .settings').length;
-            this.button.addFirst('redo', 'Redo', function() {
-                this.execCommand('redo');
+            var button = this.button.addFirst('redo', 'Redo');
+            this.button.addCallback(button, function() {
+                this.buffer.redo();
             });
-            this.button.addFirst('undo', 'Undo', function() {
-               this.execCommand('undo');
+            var button = this.button.addFirst('undo', 'Undo');
+            this.button.addCallback(button, function() {
+               this.buffer.undo();
             });
             if (isAdmin) {
-                this.button.addFirst('html', 'HTML', this.toggle);
+                var button = this.button.addFirst('html', 'HTML');
+                this.button.addCallback(button, function() {
+                    this.code.toggle();
+                });
             }
         }
     }
