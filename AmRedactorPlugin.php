@@ -10,7 +10,7 @@ class AmRedactorPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '1.0.1';
+        return '1.0.2';
     }
 
     public function getDeveloper()
@@ -23,11 +23,29 @@ class AmRedactorPlugin extends BasePlugin
         return 'http://www.am-impact.nl';
     }
 
+    public function getSettingsHtml()
+    {
+        return craft()->templates->render('amredactor/settings', array(
+            'settings' => $this->getSettings()
+        ));
+    }
+
     public function init()
     {
-        if(craft()->request->isCpRequest())
+        if(craft()->request->isCpRequest() && ! craft()->request->isAjaxRequest())
         {
+            $settings = $this->getSettings();
+            $redactorCss = craft()->config->parseEnvironmentString($settings['cssPath']);
+
+            craft()->templates->includeCssFile( $redactorCss );
             craft()->templates->includeJsResource('amredactor/js/amredactor.js');
         }
+    }
+
+    protected function defineSettings()
+    {
+        return array(
+            'cssPath' => array(AttributeType::String, 'default' => '{submap}resources/compiled/redactor.css')
+        );
     }
 }

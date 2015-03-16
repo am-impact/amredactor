@@ -1,0 +1,10 @@
+{% import "_includes/forms" as forms %}
+
+<h1>{{ 'Redactor settings'|t }}</h1>
+
+{{ forms.textField({
+    id:         'cssPath',
+    name:       'cssPath',
+    label:      'Css path',
+    value:      settings.cssPath
+}) }}
