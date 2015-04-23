@@ -1,0 +1,14 @@
+{
+    "name": "am-impact/amredactor",
+    "description": "Redactor plugin for Craft CMS",
+    "authors": [
+        {
+            "name": "Hubert Prein",
+            "email": "h.prein@am-impact.nl"
+        }
+    ],
+    "type": "craft-plugin",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
