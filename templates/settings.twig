@@ -8,3 +8,23 @@
     label:      'Css path',
     value:      settings.cssPath
 }) }}
+
+{{ forms.editableTableField({
+    id:         'classes',
+    name:       'classes',
+    label:      'Classes',
+    required:   false,
+    cols:       {
+                    label: {
+                        heading: 'Label',
+                        type: 'singleline',
+                        width: '50%'
+                    },
+                    class: {
+                        heading: 'Class',
+                        type: 'singleline',
+                        width: '50%'
+                    }
+                },
+    rows:       settings.classes
+}) }}

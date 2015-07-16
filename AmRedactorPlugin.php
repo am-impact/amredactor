@@ -10,7 +10,7 @@ class AmRedactorPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '1.0.2';
+        return '1.1.0';
     }
 
     public function getDeveloper()
@@ -38,14 +38,26 @@ class AmRedactorPlugin extends BasePlugin
             $redactorCss = craft()->config->parseEnvironmentString($settings['cssPath']);
 
             craft()->templates->includeCssFile( $redactorCss );
+            craft()->templates->includeJs('window.amredactorClasses = ' . json_encode( $settings['classes'] ) . ';');
             craft()->templates->includeJsResource('amredactor/js/amredactor.js');
+            craft()->templates->includeCssResource('amredactor/css/amredactor.css');
         }
+    }
+
+    public function prepSettings($settings)
+    {
+        if(!isset($settings['classes'])) {
+            $settings['classes'] = array();
+        }
+
+        return $settings;
     }
 
     protected function defineSettings()
     {
         return array(
-            'cssPath' => array(AttributeType::String, 'default' => '{submap}resources/compiled/redactor.css')
+            'cssPath' => array(AttributeType::String, 'default' => '{submap}resources/css/redactor.css'),
+            'classes' => array(AttributeType::Mixed, 'default' => array())
         );
     }
 }
