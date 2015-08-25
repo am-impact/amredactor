@@ -68,7 +68,7 @@ RedactorPlugins.amredactor = function() {
             /**
              * 'amredactorClasses' is set from the config of the plugin
              */
-            if( window.amredactorClasses.length > 0 ) {
+            if( Object.keys(window.amredactorClasses).length > 0 ) {
                 self.amredactor.addStylesButton( window.amredactorClasses );
             }
         }

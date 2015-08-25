@@ -1,3 +1,8 @@
 .redactor-toolbar li a.re-customstyles {
     background-image: url(../img/customstyles.png);
 }
+
+.redactor-toolbar li a.re-customstyles:focus,
+.redactor-toolbar li a.re-customstyles:active, {
+    background-image: url(../img/customstyles-white.png);
+}
