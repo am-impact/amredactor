@@ -40,7 +40,7 @@ RedactorPlugins.amredactor = function() {
          * Check if you are a admin. Used with the source button
          */
         isAdmin: function() {
-            return $('#header-actions .settings').length
+            return $('#nav-settings').length
         },
 
         /**
