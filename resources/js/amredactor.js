@@ -7,15 +7,14 @@ RedactorPlugins.amredactor = function() {
          */
         addDefaultButtons: function() {
             var self = this,
-                buttonRedo = this.button.addFirst('redo', 'Redo'),
-                buttonUndo = this.button.addFirst('undo', 'Undo');
+                buttonUndo = this.button.addBefore('format', 'undo', 'Undo');
+                buttonRedo = this.button.addBefore('format', 'redo', 'Redo'),
 
             this.button.addCallback( buttonRedo, this.buffer.redo );
             this.button.addCallback( buttonUndo, this.buffer.undo );
 
-            if( self.amredactor.isAdmin() ) {
-                var buttonHtml = this.button.addFirst('html', 'HTML');
-                this.button.addCallback( buttonHtml, this.code.toggle );
+            if (! self.amredactor.isAdmin()) {
+                this.button.remove('html');
             }
         },
 
