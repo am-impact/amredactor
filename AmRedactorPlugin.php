@@ -32,8 +32,7 @@ class AmRedactorPlugin extends BasePlugin
 
     public function init()
     {
-        if(craft()->request->isCpRequest() && ! craft()->request->isAjaxRequest())
-        {
+        if (craft()->request->isCpRequest() && craft()->userSession->isLoggedIn() && ! craft()->request->isAjaxRequest()) {
             $settings = $this->getSettings();
             $redactorCss = craft()->config->parseEnvironmentString($settings['cssPath']);
 
@@ -41,6 +40,9 @@ class AmRedactorPlugin extends BasePlugin
             craft()->templates->includeJs('window.amredactorClasses = ' . json_encode( $settings['classes'] ) . ';');
             craft()->templates->includeJsResource('amredactor/js/amredactor.js');
             craft()->templates->includeCssResource('amredactor/css/amredactor.css');
+
+            // Don't let task bash requests
+            craft()->templates->includeJs('Craft.CP.taskTrackerUpdateInterval = 60000;');
         }
     }
 
