@@ -43,6 +43,7 @@ class AmRedactorPlugin extends BasePlugin
 
             // Don't let task bash requests
             craft()->templates->includeJs('Craft.CP.taskTrackerUpdateInterval = 60000;');
+            craft()->templates->includeJs('Craft.CP.taskTrackerHudUpdateInterval = 60000;');
         }
     }
 
