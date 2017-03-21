@@ -1,0 +1,20 @@
+.redactor-toolbar li a.re-customstyles {
+    background-image: url(../img/customstyles.png);
+}
+
+.redactor-toolbar li a.re-customstyles:focus,
+.redactor-toolbar li a.re-customstyles:active,
+.redactor-toolbar li a.re-customstyles.redactor-act {
+    background-image: url(../img/customstyles-white.png);
+}
+
+
+.redactor-toolbar li a.re-clear {
+    background-image: url(../img/clear.png);
+}
+
+.redactor-toolbar li a.re-clear:focus,
+.redactor-toolbar li a.re-clear:active,
+.redactor-toolbar li a.re-clear.redactor-act {
+    background-image: url(../img/clear-white.png);
+}

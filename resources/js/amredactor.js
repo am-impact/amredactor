@@ -19,6 +19,19 @@ RedactorPlugins.amredactor = function() {
         },
 
         /**
+         * Add button to clear html
+         */
+        addClearButton: function() {
+            var button = this.button.addBefore('bold', 'clear', 'Remove all styles');
+            
+            this.button.addCallback(button, function() {
+                if( confirm('Are you sure that you want to remove all styles?') ) {
+                    this.insert.set( this.clean.stripTags(this.content) );
+                }
+            });
+        },
+
+        /**
          * Add styles dropdown
          */
         addStylesButton: function( classes ) {
@@ -39,7 +52,7 @@ RedactorPlugins.amredactor = function() {
          * Check if you are a admin. Used with the source button
          */
         isAdmin: function() {
-            return $('#nav-settings').length
+            return $('#nav-settings').length;
         },
 
         /**
@@ -60,9 +73,11 @@ RedactorPlugins.amredactor = function() {
          * Init
          */
         init: function() {
+
             var self = this;
 
             self.amredactor.addDefaultButtons();
+            self.amredactor.addClearButton();
 
             /**
              * 'amredactorClasses' is set from the config of the plugin
