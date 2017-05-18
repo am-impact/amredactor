@@ -5,7 +5,7 @@ class AmRedactorPlugin extends BasePlugin
 {
     public function getName()
     {
-         return 'a&m impact redactor';
+         return 'a&m redactor';
     }
 
     public function getVersion()
@@ -36,8 +36,29 @@ class AmRedactorPlugin extends BasePlugin
             $settings = $this->getSettings();
             $redactorCss = craft()->config->parseEnvironmentString($settings['cssPath']);
 
+            // Find out if we have to show the HTML button in redactor
+            $showHtmlButton = false;
+            if (isset($settings['showHtmlButtonForUserGroups']) && ! empty($settings['showHtmlButtonForUserGroups'])) {
+                $user = craft()->userSession->getUser();
+                if ($user) {
+                    if ($user->admin) {
+                        $showHtmlButton = true;
+                    }
+                    else {
+                        foreach ($settings['showHtmlButtonForUserGroups'] as $userGroupId) {
+                            if ($user->isInGroup($userGroupId)) {
+                                $showHtmlButton = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Include our redactor plugin
             craft()->templates->includeCssFile( $redactorCss );
             craft()->templates->includeJs('window.amredactorClasses = ' . json_encode( $settings['classes'] ) . ';');
+            craft()->templates->includeJs('window.amredactorShowHtmlButton = ' . ($showHtmlButton ? '"y"' : '"n"') . ';');
             craft()->templates->includeJsResource('amredactor/js/amredactor.js');
             craft()->templates->includeCssResource('amredactor/css/amredactor.css');
 
@@ -49,7 +70,7 @@ class AmRedactorPlugin extends BasePlugin
 
     public function prepSettings($settings)
     {
-        if(!isset($settings['classes'])) {
+        if (! isset($settings['classes'])) {
             $settings['classes'] = array();
         }
 
@@ -60,7 +81,8 @@ class AmRedactorPlugin extends BasePlugin
     {
         return array(
             'cssPath' => array(AttributeType::String, 'default' => '{submap}resources/css/redactor.css'),
-            'classes' => array(AttributeType::Mixed, 'default' => array())
+            'classes' => array(AttributeType::Mixed, 'default' => array()),
+            'showHtmlButtonForUserGroups' => array(AttributeType::Mixed)
         );
     }
 }

@@ -13,7 +13,7 @@ RedactorPlugins.amredactor = function() {
             this.button.addCallback( buttonRedo, this.buffer.redo );
             this.button.addCallback( buttonUndo, this.buffer.undo );
 
-            if (! self.amredactor.isAdmin()) {
+            if (! Object.keys(window.amredactorShowHtmlButton).length || window.amredactorShowHtmlButton == 'n') {
                 this.button.remove('html');
             }
         },
@@ -23,7 +23,7 @@ RedactorPlugins.amredactor = function() {
          */
         addClearButton: function() {
             var button = this.button.addBefore('bold', 'clear', 'Remove all styles');
-            
+
             this.button.addCallback(button, function() {
 
                 if( confirm('Are you sure that you want to remove all styles?') ) {
@@ -37,12 +37,12 @@ RedactorPlugins.amredactor = function() {
                          * Add spaces at end of paragraphs, so content won't be glued to each other
                          */
                         var paragraphs = this.$editor[0].querySelectorAll('p');
-                        
+
                         // Loop through the paragraphs
                         for( var p = 0, plen = paragraphs.length; p < plen; p++ ) {
                             // Get the plain html from the paragraph
                             var paragraphText = this.clean.stripTags( paragraphs[p].innerHTML );
-                            
+
                             // When the last character of the paragraph isn't a space and when it isn't the last paragraph
                             // then add a space
                             if( paragraphText[ paragraphText.length - 1 ] !== ' ' && p < plen - 1 ) {
@@ -80,13 +80,6 @@ RedactorPlugins.amredactor = function() {
             dropdown.remove = { title: 'Wis opmaak', func: self.amredactor.removeStyles };
 
             this.button.addDropdown(button, dropdown);
-        },
-
-        /**
-         * Check if you are a admin. Used with the source button
-         */
-        isAdmin: function() {
-            return $('#nav-settings').length;
         },
 
         /**

@@ -2,6 +2,18 @@
 
 <h1>{{ 'Redactor settings'|t }}</h1>
 
+{% set userGroups = [] %}
+{% for userGroup in craft.userGroups.getAllGroups() %}
+    {% set userGroups = userGroups|merge([{ label: userGroup.name, value: userGroup.id }]) %}
+{% endfor %}
+{{ forms.multiselectField({
+    id: 'showHtmlButtonForUserGroups',
+    name: 'showHtmlButtonForUserGroups',
+    label: 'Toon HTML knop voor deze gebruikersgroepen',
+    values: settings.showHtmlButtonForUserGroups,
+    options: userGroups
+}) }}
+
 {{ forms.textField({
     id:         'cssPath',
     name:       'cssPath',
