@@ -7,13 +7,16 @@ RedactorPlugins.amredactor = function() {
          */
         addDefaultButtons: function() {
             var self = this,
-                buttonUndo = this.button.addBefore('format', 'undo', 'Undo');
-                buttonRedo = this.button.addBefore('format', 'redo', 'Redo'),
+                buttonUndo = this.button.addBefore('format', 'undo', 'Undo'),
+                buttonRedo = this.button.addBefore('format', 'redo', 'Redo');
 
             this.button.addCallback( buttonRedo, this.buffer.redo );
             this.button.addCallback( buttonUndo, this.buffer.undo );
 
-            if (! Object.keys(window.amredactorShowHtmlButton).length || window.amredactorShowHtmlButton == 'n') {
+            if (
+                (typeof window.amredactorShowHtmlButton === 'object' && !Object.keys(window.amredactorShowHtmlButton).length) ||
+                window.amredactorShowHtmlButton == 'n'
+            ) {
                 this.button.remove('html');
             }
         },
