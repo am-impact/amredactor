@@ -38,18 +38,16 @@ class AmRedactorPlugin extends BasePlugin
 
             // Find out if we have to show the HTML button in redactor
             $showHtmlButton = false;
-            if (isset($settings['showHtmlButtonForUserGroups']) && ! empty($settings['showHtmlButtonForUserGroups'])) {
-                $user = craft()->userSession->getUser();
-                if ($user) {
-                    if ($user->admin) {
-                        $showHtmlButton = true;
-                    }
-                    else {
-                        foreach ($settings['showHtmlButtonForUserGroups'] as $userGroupId) {
-                            if ($user->isInGroup($userGroupId)) {
-                                $showHtmlButton = true;
-                                break;
-                            }
+            $user = craft()->userSession->getUser();
+            if ($user) {
+                if ($user->admin) {
+                    $showHtmlButton = true;
+                }
+                elseif (isset($settings['showHtmlButtonForUserGroups']) && ! empty($settings['showHtmlButtonForUserGroups'])) {
+                    foreach ($settings['showHtmlButtonForUserGroups'] as $userGroupId) {
+                        if ($user->isInGroup($userGroupId)) {
+                            $showHtmlButton = true;
+                            break;
                         }
                     }
                 }
